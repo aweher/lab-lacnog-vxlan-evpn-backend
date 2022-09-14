@@ -16,7 +16,7 @@ services:
       - traefik.http.routers.webssh.tls.certresolver=lets-encrypt
       - traefik.http.services.webssh.loadbalancer.server.port=80
     networks:
-      - web
+#      - web
       - internal
   
   docs:
@@ -45,3 +45,5 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
+    networks:
+      - internal
