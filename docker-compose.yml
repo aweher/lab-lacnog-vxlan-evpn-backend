@@ -35,10 +35,10 @@ services:
     image: reg.dc.celp.red/lacnog/consoler
     hostname: consoler
     environment:
-      - PUID=0
-      - PGID=0
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Argentina/BuenosAires
-      - SUDO_ACCESS=false
+      - SUDO_ACCESS=true
       - PASSWORD_ACCESS=true
       - USER_NAME=lablacnog
       - USER_PASSWORD=RadiaPerlman
