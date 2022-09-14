@@ -30,20 +30,20 @@ services:
     networks:
       - web
       - internal
-  
-  consoler:
-    image: reg.dc.celp.red/lacnog/consoler
-    hostname: consoler
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Argentina/BuenosAires
-      - SUDO_ACCESS=true
-      - PASSWORD_ACCESS=true
-      - USER_NAME=lablacnog
-      - USER_PASSWORD=RadiaPerlman
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
-    networks:
-      - internal
+      
+#   consoler:
+#    image: reg.dc.celp.red/lacnog/consoler
+#    hostname: consoler
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
+#      - TZ=America/Argentina/BuenosAires
+#      - SUDO_ACCESS=true
+#      - PASSWORD_ACCESS=true
+#      - USER_NAME=lablacnog
+#      - USER_PASSWORD=RadiaPerlman
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    restart: unless-stopped
+#    networks:
+#      - internal
