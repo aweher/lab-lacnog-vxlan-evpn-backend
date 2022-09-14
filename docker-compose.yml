@@ -18,7 +18,8 @@ services:
     networks:
       - web
       - internal
-  
+    restart: unless-stopped  
+
   docs:
     image: reg.dc.celp.red/lacnog/doc-lab-vxlan-evpn
     hostname: docs
@@ -30,7 +31,8 @@ services:
     networks:
       - web
       - internal
-      
+    restart: unless-stopped
+
 #   consoler:
 #    image: reg.dc.celp.red/lacnog/consoler
 #    hostname: consoler
