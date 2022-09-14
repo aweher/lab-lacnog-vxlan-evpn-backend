@@ -31,7 +31,6 @@ services:
   
   consoler:
     image: reg.dc.celp.red/lacnog/consoler
-    container_name: consoler
     hostname: consoler
     environment:
       - PUID=1000

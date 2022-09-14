@@ -20,6 +20,3 @@ RUN apk --no-cache add git python3 py3-pip \
     && git clone https://github.com/aweher/lab-lacnog-menu.git /shell \
     && pip install -r /shell/requirements.txt \
     && echo /shell/shellmenu.sh >> /etc/shells \
-    && echo "echo HOLA" > /root/.bashrc
-
-ENTRYPOINT ["bash"]
