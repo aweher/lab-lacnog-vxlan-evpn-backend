@@ -11,4 +11,5 @@ docker run -d \
   -p 443:443 \
   --network web \
   --name traefik \
+  --restart unless-stopped \
   traefik:v2.2
