@@ -19,7 +19,7 @@ services:
       - internal
   
   docs:
-    image: lacnog/doc-lab-vxlan-evpn
+    image: reg.dc.celp.red/lacnog/doc-lab-vxlan-evpn
     labels:
       - traefik.http.routers.webssh.rule=Host(`vxlan.nog.lat`)
       - traefik.http.routers.webssh.tls=true
