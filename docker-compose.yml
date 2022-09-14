@@ -9,6 +9,7 @@ networks:
 services:
   webssh:
     image: reg.dc.celp.red/lacnog/webssh 
+    hostname: webssh
     labels:
       - traefik.http.routers.webssh.rule=Host(`ssh.nog.lat`)
       - traefik.http.routers.webssh.tls=true
@@ -20,6 +21,7 @@ services:
   
   docs:
     image: reg.dc.celp.red/lacnog/doc-lab-vxlan-evpn
+    hostname: docs
     labels:
       - traefik.http.routers.docs.rule=Host(`vxlan.nog.lat`)
       - traefik.http.routers.docs.tls=true
