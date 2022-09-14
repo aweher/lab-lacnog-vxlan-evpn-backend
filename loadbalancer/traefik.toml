@@ -18,7 +18,7 @@
 
 [providers.docker]
   watch = true
-#  network = "web"
+  network = "web"
 
 [providers.file]
   filename = "traefik_dynamic.toml"
