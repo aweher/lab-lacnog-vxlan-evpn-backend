@@ -1,6 +1,6 @@
 [http.middlewares.simpleAuth.basicAuth]
   users = [
-    "admin:$apr1$7fxxyHZu$9zBTmHDqGTeQyzUcEKAEa0"
+    "admin:$apr1$HBiFTJR4$Yxl5w/Ibu6UqksBUNU.yd1" #admin:RADIAProvoloneLACNOG (yes, I know...)
   ]
 
 [http.routers.api]

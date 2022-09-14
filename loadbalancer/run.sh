@@ -2,6 +2,9 @@
 
 docker network create web
 
+touch acme.json
+chmod 0600 acme.json
+
 docker run -d \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v $PWD/traefik.toml:/traefik.toml \
