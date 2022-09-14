@@ -21,10 +21,10 @@ services:
   docs:
     image: reg.dc.celp.red/lacnog/doc-lab-vxlan-evpn
     labels:
-      - traefik.http.routers.webssh.rule=Host(`vxlan.nog.lat`)
-      - traefik.http.routers.webssh.tls=true
-      - traefik.http.routers.webssh.tls.certresolver=lets-encrypt
-      - traefik.http.services.webssh.loadbalancer.server.port=80
+      - traefik.http.routers.docs.rule=Host(`vxlan.nog.lat`)
+      - traefik.http.routers.docs.tls=true
+      - traefik.http.routers.docs.tls.certresolver=lets-encrypt
+      - traefik.http.services.docs.loadbalancer.server.port=80
     networks:
       - web
       - internal
