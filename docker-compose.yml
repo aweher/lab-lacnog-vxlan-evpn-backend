@@ -8,13 +8,12 @@ networks:
 
 services:
   webssh:
-    image: reg.dc.celp.red/lacnog/webssh
-    
+    image: reg.dc.celp.red/lacnog/webssh 
     labels:
       - traefik.http.routers.blog.rule=Host(`vxlan.nog.lat`)
       - traefik.http.routers.blog.tls=true
       - traefik.http.routers.blog.tls.certresolver=lets-encrypt
-      - traefik.port=80
-    networks:
-      - internal
-      - web
+      - traefik.port=8022
+#    networks:
+#      - internal
+#      - web
