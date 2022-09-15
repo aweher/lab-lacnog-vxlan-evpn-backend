@@ -33,6 +33,19 @@ services:
       - internal
     restart: unless-stopped
 
+  api:
+    image: reg.dc.celp.red/lacnog/api
+    hostname: docs
+    labels:
+      - traefik.http.routers.docs.rule=Host(`api.vxlan.nog.lat`)
+      - traefik.http.routers.docs.tls=true
+      - traefik.http.routers.docs.tls.certresolver=lets-encrypt
+      - traefik.http.services.docs.loadbalancer.server.port=6789
+    networks:
+      - web
+      - internal
+    restart: unless-stopped
+
 #   consoler:
 #    image: reg.dc.celp.red/lacnog/consoler
 #    hostname: consoler

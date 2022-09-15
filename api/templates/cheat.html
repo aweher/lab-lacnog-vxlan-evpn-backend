@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cheat para el Asiento #{{ id }}</title>
+</head>
+<body>
+<h1>Laboratorio #1</h1>
+<h2>Actividad 1.1</h2>
+<h3>Host{{ id }}</h3>
+<pre>
+ip link set dev eth1 up
+ip address add 10.0.0.{{ id }}/24 dev eth1
+ip -6 address add 2001:db8:bebe:cafe::{{ id }}/64 dev eth1
+</pre>
+
+<h2>Actividad 1.2</h2>
+<h3>Leaf{{ id }}</h3>
+<pre>
+ip link add name bridge101 type bridge
+ip link set bridge101 up
+ip link set eth3 master bridge101
+
+v6e0=$(ip -6 a | grep global | awk '{print $2}' | cut -d '/' -f 1)
+echo "La IPv6 de eth0 es: ${v6e0}"
+ip link add vxlan101 mtu 9000 type vxlan id 101 local ${v6e0} remote 2001:db8::cafe dstport 4789
+ip link set vxlan101 up
+ip link set vxlan101 master bridge101
+for IP6 in `seq 1 50`; do bridge fdb append 00:00:00:00:00:00 dev vxlan101 dst 2001:db8::$IP6; done
+</pre>
+
+<h2>Actividad 1.3</h2>
+<h3>Host{{ id }}</h3>
+<pre>
+ping -c 10 -s 1500 -M dont 10.0.0.254
+ping6 -c 10 -s 1500 -M dont 2001:db8::254
+</pre>
+
+<h2>Actividad 1.4</h2>
+<h3>Leaf{{ id }}</h3>
+<pre>
+ip link del dev vxlan101
+ip link del dev bridge101
+</pre>
+
+<hr />
+
+<h1>Laboratorio #2</h1>
+<h2>Actividad 2.1</h2>
+<h3>Leaf{{ id }}</h3>
+<pre>
+ip link add name bridge101 type bridge
+ip link set bridge101 up
+ip link set eth3 master bridge101
+
+v6e0=$(ip -6 a | grep global | awk '{print $2}' | cut -d '/' -f 1)
+ip link add vxlan101 mtu 9000 type vxlan id 101 dev eth0 ttl 1 local ${v6e0} group FF05::101 dstport 4789
+ip link set vxlan101 up
+ip link set vxlan101 master bridge101
+</pre>
+
+<h2>Actividad 2.2</h2>
+<h3>Host{{ id }}</h3>
+<pre>
+ping -c 10 -s 1500 -M dont 10.0.0.254
+ping6 -c 10 -s 1500 -M dont 2001:db8::254
+</pre>
+
+<h2>Actividad 2.3</h2>
+<h3>Leaf{{ id }}</h3>
+<pre>
+ip link del dev vxlan101
+ip link del dev bridge101
+</pre>
+
+<hr />
+
+<h1>Laboratorio #3</h1>
+<h2>Actividad 3.1</h2>
+<h3>Leaf{{ id }}</h3>
+<pre>
+ip link add name bridge101 type bridge
+ip link set eth3 up
+ip link set bridge101 up
+ip link set eth3 master 
+
+ip address add 100.100.100.{{ id }} dev lo
+
+ip link add vxlan101 mtu 9000 type vxlan id 101 local 100.100.100.{{ id }} dstport 4789 nolearning
+ip link set vxlan101 up
+
+ip link set vxlan101 master bridge101
+
+vtysh
+
+configure terminal
+router bgp {{ id }}
+bgp router-id 100.100.100.{{ id }}
+bgp log-neighbor-changes
+no bgp ebgp-requires-policy
+no bgp default ipv4-unicast
+bgp bestpath as-path multipath-relax
+timers bgp 3 9
+neighbor SPINE peer-group
+neighbor SPINE remote-as 65007
+neighbor SPINE capability extended-nexthop
+neighbor eth1 interface peer-group SPINE
+neighbor eth1 description SPINE1
+neighbor eth2 interface peer-group SPINE
+neighbor eth2 description SPINE2
+
+address-family ipv4 unicast
+maximum-paths 64
+neighbor SPINE activate
+redistribute connected
+exit-address-family
+
+address-family ipv6 unicast
+maximum-paths 64
+neighbor SPINE activate
+redistribute connected
+exit-address-family
+
+address-family l2vpn evpn
+neighbor SPINE activate
+advertise-all-vni
+end
+write
+exit
+</pre>
+
+<h2>Actividad 3.2</h2>
+<h3>Host{{ id }}</h3>
+<pre>
+ping -c 10 -s 1500 -M dont 10.0.0.254
+ping6 -c 10 -s 1500 -M dont 2001:db8::254
+</pre>
+
+</body>
+</html>
