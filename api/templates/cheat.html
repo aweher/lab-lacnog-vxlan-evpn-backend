@@ -21,12 +21,12 @@ ip link add name bridge101 type bridge
 ip link set bridge101 up
 ip link set eth3 master bridge101
 
-v6e0=$(ip -6 a | grep global | awk '{print $2}' | cut -d '/' -f 1)
+v6e0=$(ip -6 a | grep global | awk '{print $2}' | grep -v cafe | cut -d '/' -f 1)
 echo "La IPv6 de eth0 es: ${v6e0}"
 ip link add vxlan101 mtu 9000 type vxlan id 101 local ${v6e0} remote 2001:db8::cafe dstport 4789
 ip link set vxlan101 up
 ip link set vxlan101 master bridge101
-for IP6 in `seq 1 50`; do bridge fdb append 00:00:00:00:00:00 dev vxlan101 dst 2001:db8::$IP6; done
+for IP6 in `seq 1 254`; do V6=$(printf '%x\n' ${IP6}); bridge fdb append 00:00:00:00:00:00 dev vxlan101 dst 2001:db8::$V6; done
 </pre>
 
 <h2>Actividad 1.3</h2>
@@ -53,7 +53,8 @@ ip link add name bridge101 type bridge
 ip link set bridge101 up
 ip link set eth3 master bridge101
 
-v6e0=$(ip -6 a | grep global | awk '{print $2}' | cut -d '/' -f 1)
+v6e0=$(ip -6 a | grep global | awk '{print $2}' | grep -v cafe | cut -d '/' -f 1)
+echo "La IPv6 de eth0 es: ${v6e0}"
 ip link add vxlan101 mtu 9000 type vxlan id 101 dev eth0 ttl 1 local ${v6e0} group FF05::101 dstport 4789
 ip link set vxlan101 up
 ip link set vxlan101 master bridge101
