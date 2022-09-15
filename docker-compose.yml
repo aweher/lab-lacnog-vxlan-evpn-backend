@@ -35,7 +35,7 @@ services:
 
   api:
     image: reg.dc.celp.red/lacnog/api
-    hostname: docs
+    hostname: api
     labels:
       - traefik.http.routers.docs.rule=Host(`api.vxlan.nog.lat`)
       - traefik.http.routers.docs.tls=true
