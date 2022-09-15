@@ -1,5 +1,7 @@
 FROM python:3.10-alpine
 
+EXPOSE 6789
+
 WORKDIR /app
 
 COPY . .
