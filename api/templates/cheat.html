@@ -83,7 +83,7 @@ ip link del dev bridge101
 ip link add name bridge101 type bridge
 ip link set eth3 up
 ip link set bridge101 up
-ip link set eth3 master 
+ip link set eth3 master bridge101
 
 ip address add 100.100.100.{{ id }} dev lo
 
