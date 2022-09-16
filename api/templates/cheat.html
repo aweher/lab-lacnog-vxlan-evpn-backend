@@ -6,7 +6,8 @@
 </head>
 <body>
 <h1>Laboratorio #1</h1>
-<h2>Actividad 1.1</h2>
+
+<h2>Actividad 1.0.1</h2>
 <h3>Host{{ id }}</h3>
 <pre>
 ip link set dev eth1 up
@@ -14,29 +15,37 @@ ip address add 10.0.0.{{ id }}/24 dev eth1
 ip -6 address add 2001:db8:bebe:cafe::{{ id }}/64 dev eth1
 </pre>
 
-<h2>Actividad 1.2</h2>
+<h2>Actividad 1.0.2</h2>
+<h3>Leaf{{ id }}</h3>
+<pre>
+ip link set dev eth4 up
+ip -6 address add 2001:db8:db:e4::{{ id }}/64 dev eth1
+</pre>
+
+<h2>Actividad 1.1.1</h2>
 <h3>Leaf{{ id }}</h3>
 <pre>
 ip link add name bridge101 type bridge
 ip link set bridge101 up
 ip link set eth3 master bridge101
-
-v6e0=$(ip -6 a | grep global | awk '{print $2}' | grep -v cafe | cut -d '/' -f 1)
-echo "La IPv6 de eth0 es: ${v6e0}"
-ip link add vxlan101 mtu 9000 type vxlan id 101 local ${v6e0} remote 2001:db8::cafe dstport 4789
-ip link set vxlan101 up
-ip link set vxlan101 master bridge101
-for IP6 in `seq 1 254`; do V6=$(printf '%x\n' ${IP6}); bridge fdb append 00:00:00:00:00:00 dev vxlan101 dst 2001:db8::$V6; done
 </pre>
 
-<h2>Actividad 1.3</h2>
+<h2>Actividad 1.1.2</h2>
+<h3>Leaf{{ id }}</h3>
+<pre>
+ip link add vxlan101 mtu 9000 type vxlan id 101 dev eth4 ttl 3 local 2001:db8:bd:e4::{{ id }} group FF05::101 dstport 4789
+ip link set vxlan101 up
+ip link set vxlan101 master bridge101
+</pre>
+
+<h2>Actividad 1.2.1</h2>
 <h3>Host{{ id }}</h3>
 <pre>
 ping -c 10 -s 1500 -M dont 10.0.0.254
-ping6 -c 10 -s 1500 -M dont 2001:db8::254
+ping6 -c 10 -s 1500 -M dont 2001:db8:bebe:cafe::254
 </pre>
 
-<h2>Actividad 1.4</h2>
+<h2>Actividad 1.3.1</h2>
 <h3>Leaf{{ id }}</h3>
 <pre>
 ip link del dev vxlan101
@@ -46,52 +55,32 @@ ip link del dev bridge101
 <hr />
 
 <h1>Laboratorio #2</h1>
-<h2>Actividad 2.1</h2>
-<h3>Leaf{{ id }}</h3>
-<pre>
-ip link add name bridge101 type bridge
-ip link set bridge101 up
-ip link set eth3 master bridge101
-
-v6e0=$(ip -6 a | grep global | awk '{print $2}' | grep -v cafe | cut -d '/' -f 1)
-echo "La IPv6 de eth0 es: ${v6e0}"
-ip link add vxlan101 mtu 9000 type vxlan id 101 dev eth0 ttl 1 local ${v6e0} group FF05::101 dstport 4789
-ip link set vxlan101 up
-ip link set vxlan101 master bridge101
-</pre>
-
-<h2>Actividad 2.2</h2>
-<h3>Host{{ id }}</h3>
-<pre>
-ping -c 10 -s 1500 -M dont 10.0.0.254
-ping6 -c 10 -s 1500 -M dont 2001:db8::254
-</pre>
-
-<h2>Actividad 2.3</h2>
-<h3>Leaf{{ id }}</h3>
-<pre>
-ip link del dev vxlan101
-ip link del dev bridge101
-</pre>
-
-<hr />
-
-<h1>Laboratorio #3</h1>
-<h2>Actividad 3.1</h2>
+<h2>Actividad 2.1.1</h2>
 <h3>Leaf{{ id }}</h3>
 <pre>
 ip link add name bridge101 type bridge
 ip link set eth3 up
 ip link set bridge101 up
 ip link set eth3 master bridge101
+ip address add 100.100.100.{{ id }}/32 dev lo
+</pre>
 
-ip address add 100.100.100.{{ id }} dev lo
-
+<h2>Actividad 2.1.2</h2>
+<h3>Leaf{{ id }}</h3>
+<pre>
 ip link add vxlan101 mtu 9000 type vxlan id 101 local 100.100.100.{{ id }} dstport 4789 nolearning
 ip link set vxlan101 up
+</pre>
 
+<h2>Actividad 2.1.3</h2>
+<h3>Leaf{{ id }}</h3>
+<pre>
 ip link set vxlan101 master bridge101
+</pre>
 
+<h2>Actividad 2.1.4</h2>
+<h3>Leaf{{ id }}</h3>
+<pre>
 vtysh
 
 configure terminal
@@ -130,11 +119,11 @@ write
 exit
 </pre>
 
-<h2>Actividad 3.2</h2>
+<h2>Actividad 2.1.7</h2>
 <h3>Host{{ id }}</h3>
 <pre>
 ping -c 10 -s 1500 -M dont 10.0.0.254
-ping6 -c 10 -s 1500 -M dont 2001:db8::254
+ping6 -c 10 -s 1500 -M dont 2001:db8:bebe:cafe::254
 </pre>
 
 </body>
