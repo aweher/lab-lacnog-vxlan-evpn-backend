@@ -62,13 +62,13 @@ ip link add name bridge101 type bridge
 ip link set eth3 up
 ip link set bridge101 up
 ip link set eth3 master bridge101
-ip address add 100.100.100.{{ id }}/32 dev lo
+ip address add 2001:db8:beef::{{ id }}/128 dev lo
 </pre>
 
 <h2>Actividad 2.1.2</h2>
 <h3>Leaf{{ id }}</h3>
 <pre>
-ip link add vxlan101 mtu 9000 type vxlan id 101 local 100.100.100.{{ id }} dstport 4789 nolearning
+ip link add vxlan101 mtu 9000 type vxlan id 101 local 2001:db8:beef::{{ id }} dstport 4789 nolearning
 ip link set vxlan101 up
 </pre>
 
@@ -87,6 +87,7 @@ configure terminal
 router bgp {{ id }}
 bgp router-id 100.100.100.{{ id }}
 bgp log-neighbor-changes
+bgp default show-nexthop-hostname
 no bgp ebgp-requires-policy
 no bgp default ipv4-unicast
 bgp bestpath as-path multipath-relax
@@ -98,12 +99,6 @@ neighbor eth1 interface peer-group SPINE
 neighbor eth1 description SPINE1
 neighbor eth2 interface peer-group SPINE
 neighbor eth2 description SPINE2
-
-address-family ipv4 unicast
-maximum-paths 64
-neighbor SPINE activate
-redistribute connected
-exit-address-family
 
 address-family ipv6 unicast
 maximum-paths 64
