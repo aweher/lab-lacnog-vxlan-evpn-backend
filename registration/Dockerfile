@@ -1,10 +1,6 @@
-FROM php:7.4-fpm
+FROM ipunktbs/nginx:1.9.7-7-1.0.4
 
-EXPOSE 4567
+EXPOSE 80
 
-WORKDIR /app
-
-COPY . .
-
-ENTRYPOINT ["php"]
-CMD ["phpinfo.php"]
+COPY phpinfo.php /var/www/app/public/
+RUN ln -s /var/www/app/public/phpinfo.php /var/www/app/public/index.php
