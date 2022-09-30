@@ -46,6 +46,20 @@ services:
       - internal
     restart: unless-stopped
 
+  registration:
+    image: reg.dc.celp.red/lacnog/registration
+    hostname: registration
+    labels:
+      - traefik.http.routers.api.rule=Host(`registration.vxlan.nog.lat`)
+      - traefik.http.routers.api.tls=true
+      - traefik.http.routers.api.tls.certresolver=lets-encrypt
+      - traefik.http.services.api.loadbalancer.server.port=4567
+    networks:
+      - web
+      - internal
+    restart: unless-stopped
+
+
 #   consoler:
 #    image: reg.dc.celp.red/lacnog/consoler
 #    hostname: consoler
