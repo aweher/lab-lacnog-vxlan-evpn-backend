@@ -47,7 +47,7 @@ services:
     restart: unless-stopped
 
   registration:
-    image: reg.dc.celp.red/lacnog/registration
+    image: reg.dc.celp.red/lacnog/lab-seats
     hostname: registration
     labels:
       - traefik.http.routers.api.rule=Host(`registration.vxlan.nog.lat`)
