@@ -57,7 +57,13 @@ services:
     networks:
       - web
       - internal
+    volumes:
+      - registration:/var/www/html/db/
     restart: unless-stopped
+  
+volumes:
+  registration:
+    external: true
 
 
 #   consoler:
